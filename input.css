@@ -1,1 +1,170 @@
 @import "tailwindcss";
+
+/* Player bar */
+@layer utilities {
+  .progress-range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .progress-range::-webkit-slider-runnable-track {
+    height: 4px;
+    background: #535353;
+    border-radius: 9999px;
+  }
+
+  .progress-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #b3b3b3; /* xám */
+    border-radius: 9999px;
+    margin-top: -4px;
+
+    opacity: 0;
+    transform: scale(0);
+    transition: all 150ms ease;
+  }
+
+  .progress-range:hover::-webkit-slider-thumb {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .progress-range:hover::-webkit-slider-runnable-track {
+    background: linear-gradient(
+      to right,
+      #b3b3b3 0%,
+      #b3b3b3 var(--progress),
+      #535353 var(--progress),
+      #535353 100%
+    );
+  }
+}
+
+/* ===== Spotify-like scroll area ===== */
+.section1 {
+  /* scroll container */
+  overflow-y: auto;
+  min-height: 0;
+
+  /* quan trọng: tránh layout bị "ép" / nhảy khi scrollbar xuất hiện */
+  scrollbar-gutter: stable;
+
+  /* biến để dùng chung màu nền sticky & scrollbar-track */
+  --sticky-bg: linear-gradient(180deg, rgba(120,140,60,0.85) 0%, rgba(18,18,18,0.0) 70%);
+  --track-bg: var(--sticky-bg);
+
+  /* màu thumb kiểu spotify */
+  --thumb: rgba(255,255,255,0.45);
+  --thumb-hover: rgba(255,255,255,0.65);
+
+  /* ẩn scrollbar mặc định (Firefox) */
+  scrollbar-width: none;
+}
+
+/* hover mới hiện (Firefox) */
+.section1:hover {
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumb) transparent;
+}
+
+/* Sticky header nằm trong scroll container */
+.section1 .header-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+/* Nền sticky: dùng cùng biến --sticky-bg */
+.section1 .header-sticky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--sticky-bg);
+}
+
+/* ===== WebKit (Chrome/Edge/Safari) scrollbar ===== */
+.section1::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* ẩn mặc định */
+.section1:not(:hover)::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Track = cùng background với sticky (để "tràn" liền mạch) */
+.section1::-webkit-scrollbar-track {
+  background: var(--track-bg);
+}
+
+/* Thumb */
+.section1::-webkit-scrollbar-thumb {
+  background: var(--thumb);
+  border-radius: 999px;
+
+  /* tạo cảm giác thumb mảnh nằm giữa track */
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+.section1:hover::-webkit-scrollbar-thumb:hover {
+  background: var(--thumb-hover);
+  background-clip: content-box;
+}
+
+/* ===== Sticky header (Section main) ===== */
+.header-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+
+  /* nền mờ + blur giống Spotify */
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 18, 18, 0.95) 0%,
+    rgba(18, 18, 18, 0.85) 60%,
+    rgba(18, 18, 18, 0) 100%
+  );
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* để tránh content bị che khi sticky */
+.section1 {
+  scroll-padding-top: 64px; /* chiều cao header */
+}
+
+/* Ẩn scrollbar nhưng vẫn scroll được */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE, Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+/* Use for footer */
+.footer-link {
+  @apply text-neutral-400 hover:text-white hover:underline transition;
+}
+
+.footer-legal {
+  @apply text-neutral-400 hover:text-white transition;
+}
+
+.social-icon {
+  @apply inline-flex items-center justify-center
+         w-10 h-10
+         rounded-full
+         bg-neutral-800
+         transition
+         hover:bg-neutral-700;
+}
+

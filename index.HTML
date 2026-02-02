@@ -18,7 +18,7 @@
         </a>
       </div>
       <!-- Spacer -->
-      <div class="flex-[1.5]"></div>
+      <div class="flex-[5]"></div>
       <!-- Home + Search -->
       <div class="mt-2 h-[48px] w-[546px] flex">
         <div class="w-[48px] h-[48px] rounded-full bg-[#121212]">
@@ -85,7 +85,7 @@
             />
           </svg>
 
-          <span>Install App</span>
+          <span class="min-w-0">Install App</span>
         </a>
         <!-- Bell && Member -->
         <div class="flex">
@@ -136,47 +136,47 @@
     </header>
 
     <!-- APP AREA -->
-    <div id="app" class="flex flex-1 overflow-hidden h-screen bg-black">
+    <div id="app" class="flex flex-1 bg-black min-h-0 overflow-hidden">
       <!-- SIDEBAR -->
       <aside
         id="sidebar"
-        class="w-[280px] bg-[#121212] flex flex-col transition-all duration-200 ml-2 rounded-lg"
+        class="flex-[3] bg-[#121212] flex flex-col transition-all duration-200 ml-2 rounded-lg min-w-0"
       >
         <!-- Fixed Header -->
-        <div flex flex-col>
+        <div class="flex flex-col">
           <!-- Library -->
           <button
-            class="text-white ml-6 mt-5 cursor-pointer transition-transform duration-200 ease-out hover:translate-x-2"
+            class="text-white mt-5 cursor-pointer transition-transform duration-200 ease-out hover:translate-x-2"
           >
             Library
           </button>
           <!-- Playlist,Artist,Podcast -->
-          <div px-3 flex gap-2>
+          <div class="flex-nowrap overflow-hidden">
             <button
-              class="text-white px-4 py-2 mt-5 ml-5 rounded-full bg-white/10 text-sm hover:bg-white/20 transition"
+              class="text-white px-4 py-2 mt-5 ml-5 rounded-full bg-white/10 text-sm hover:bg-white/20 transition whitespace-nowrap"
             >
               Playlist
             </button>
             <button
-              class="px-4 py-2 rounded-full bg-white/10 text-sm text-white hover:bg-white/20 transition"
+              class="px-4 py-2 rounded-full bg-white/10 text-sm text-white hover:bg-white/20 transition whitespace-nowrap"
             >
               Artist
             </button>
             <button
-              class="px-4 py-2 rounded-full bg-white/10 text-sm text-white hover:bg-white/20 transition"
+              class="px-4 py-2 rounded-full bg-white/10 text-sm text-white hover:bg-white/20 transition whitespace-nowrap"
             >
               Podcast
             </button>
           </div>
         </div>
         <!-- Search, Nearly, Avatar, Name -->
-        <div flex flex-col h-full>
-          <!-- Search && Nearly -->
-          <div class="px-3 py-2 flex items-center justify-between relative">
-            <!-- Search -->
+        <div class="flex items-center justify-between px-3 py-2 relative">
+          <!-- LEFT: SEARCH -->
+          <div class="flex items-center relative">
+            <!-- Search button -->
             <button
               id="searchButton"
-              class="cursor-pointer group flex items-center justify-center w-9 h-9 rounded-full hover:bg-white/10 transition cursor-pointer"
+              class="cursor-pointer group flex items-center justify-center w-9 h-9 rounded-full hover:bg-white/10 transition"
             >
               <svg
                 class="w-5 h-5 text-white/70 group-hover:text-white transition"
@@ -188,7 +188,8 @@
                 ></path>
               </svg>
             </button>
-            <!-- Hidden search input: active when use JS -->
+
+            <!-- Search input -->
             <div
               id="searchBox"
               class="absolute left-0 top-0 flex items-center gap-2 h-9 px-3 rounded-full bg-white/10 opacity-0 w-0 overflow-hidden transition-all duration-200 ease-out"
@@ -213,29 +214,26 @@
                 class="bg-transparent outline-none text-sm text-white placeholder-white/50 w-48"
               />
             </div>
-            <!-- Nearly -->
-            <button
-              class="group flex transition-all duration-150 ease-out hover:text-[#fff] hover:scale-101"
-            >
-              <span
-                class="text-[#aaa] transition-all duration-150 group-hover:text-[#fff] group-hover:scale-101"
-                >Nearly</span
-              >
-              <svg
-                viewBox="0 0 16 16"
-                class="w-4 h-4 text-[#aaa] mt-1 mx-2 transition-all duration-150 group-hover:text-[#fff] group-hover:scale-101"
-                fill="currentColor"
-              >
-                <path
-                  d="M15.5 13.5H.5V12h15zm0-4.75H.5v-1.5h15zm0-4.75H.5V2.5h15z"
-                ></path>
-              </svg>
-            </button>
           </div>
-          <!-- Avatar -->
-           <div class="flex flex-col">
 
-           </div>
+          <!-- RIGHT: NEARLY -->
+          <button
+            class="group flex items-center transition-all duration-150 hover:text-white mr-4"
+          >
+            <span
+              class="text-[#aaa] transition-all duration-150 group-hover:text-white"
+              >Nearly</span
+            >
+            <svg
+              viewBox="0 0 16 16"
+              class="w-4 h-4 text-[#aaa] ml-2 transition-all duration-150 group-hover:text-white"
+              fill="currentColor"
+            >
+              <path
+                d="M15.5 13.5H.5V12h15zm0-4.75H.5v-1.5h15zm0-4.75H.5V2.5h15z"
+              ></path>
+            </svg>
+          </button>
         </div>
       </aside>
       <!-- RESIZER -->
@@ -245,23 +243,1275 @@
       ></div>
 
       <!-- MAIN -->
-      <main class="flex flex-col flex-1 min-w-0 bg-black">
-        <!-- SECTION1 -->
-        <section></section>
+      <main
+        class="flex flex-1 bg-black min-w-0 flex-[7] ml-1 min-h-0 overflow-hidden"
+      >
+        <!-- SECTION1 Main-content-->
+        <section
+          class="min-w-0 bg-[#121212] rounded-lg flex-1 min-h-0 flex flex-col section1"
+          style="flex: 6 1 0%"
+        >
+          <!-- Sticky header -->
+          <div class="py-4 header-sticky relative">
+            <!-- Tabs -->
+            <div class="ml-9 flex gap-3">
+              <!-- All -->
+              <a
+                href="#!"
+                class="px-4 py-2 rounded-full text-sm font-thin text-white bg-[#2a2a2a] hover:scale-105 transition-all duration-200 ease-out"
+              >
+                All
+              </a>
 
-        <!-- SECTION2 -->
-        <section></section>
+              <a
+                href="#!"
+                class="px-4 py-2 rounded-full text-sm font-thin text-white bg-[#2a2a2a] hover:scale-105 transition-all duration-200 ease-out"
+              >
+                Music
+              </a>
+
+              <a
+                href="#!"
+                class="px-4 py-2 rounded-full text-sm font-thin text-white bg-[#2a2a2a] hover:scale-105 transition-all duration-200 ease-out"
+              >
+                Podcasts
+              </a>
+            </div>
+          </div>
+          <!-- Main content in section 1 -->
+          <div class="flex-1 min-h-0 flex flex-col [&>*]:shrink-0">
+            <!-- 6 Items -->
+            <section class="px-10 pt-4">
+              <div class="grid grid-cols-4 gap-3">
+                <!-- item 1 -->
+                <a
+                  href="#!"
+                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
+                >
+                  <img
+                    src="./assets/image/items1.jpg"
+                    class="w-[72px] h-[72px] object-cover shrink-0"
+                    alt=""
+                  />
+                  <span class="px-4 text-white font-semibold truncate"
+                    >blue</span
+                  >
+                </a>
+
+                <!-- item 2 -->
+                <a
+                  href="#!"
+                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
+                >
+                  <img
+                    src="./assets/image/item2.jpg"
+                    class="w-[72px] h-[72px] object-cover shrink-0"
+                    alt=""
+                  />
+                  <span class="px-4 text-white font-semibold truncate"
+                    >Tình Đắng Như Ly Cà Phê Radio</span
+                  >
+                </a>
+
+                <!-- item 3 -->
+                <a
+                  href="#!"
+                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
+                >
+                  <img
+                    src="./assets/image/item3.jpg"
+                    class="w-[72px] h-[72px] object-cover shrink-0"
+                    alt=""
+                  />
+                  <span class="px-4 text-white font-semibold truncate"
+                    >Từng Ngày Như Mãi Mãi</span
+                  >
+                </a>
+
+                <!-- item 4 -->
+                <a
+                  href="#!"
+                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
+                >
+                  <img
+                    src="./assets/image/item4.jpg"
+                    class="w-[72px] h-[72px] object-cover shrink-0"
+                    alt=""
+                  />
+                  <span class="px-4 text-white font-semibold truncate"
+                    >Dhruv</span
+                  >
+                </a>
+
+                <!-- item 5 -->
+                <a
+                  href="#!"
+                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
+                >
+                  <img
+                    src="./assets/image/item5.jpg"
+                    class="w-[72px] h-[72px] object-cover shrink-0"
+                    alt=""
+                  />
+                  <span class="px-4 text-white font-semibold truncate"
+                    >Daily Mix 3</span
+                  >
+                </a>
+
+                <!-- item 6 -->
+                <a
+                  href="#!"
+                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
+                >
+                  <img
+                    src="./assets/image/item6.jpg"
+                    class="w-[72px] h-[72px] object-cover shrink-0"
+                    alt=""
+                  />
+                  <span class="px-4 text-white font-semibold truncate"
+                    >Jazz Vibes</span
+                  >
+                </a>
+                <!-- item 7 -->
+                <a
+                  href="#!"
+                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
+                >
+                  <img
+                    src="./assets/image/item7.jpg"
+                    class="w-[72px] h-[72px] object-cover shrink-0"
+                    alt=""
+                  />
+                  <span class="px-4 text-white font-semibold truncate"
+                    >Jazz Vibes</span
+                  >
+                </a>
+                <!-- item 8 -->
+                <a
+                  href="#!"
+                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
+                >
+                  <img
+                    src="./assets/image/item8.jpg"
+                    class="w-[72px] h-[72px] object-cover shrink-0"
+                    alt=""
+                  />
+                  <span class="px-4 text-white font-semibold truncate"
+                    >Jazz Vibes</span
+                  >
+                </a>
+              </div>
+            </section>
+            <!-- Made For You -->
+            <section class="mt-10 mx-10">
+              <a
+                href="#!"
+                class="text-white text-2xl font-extrabold tracking-tight hover:underline underline-offset-4"
+              >
+                Made For You
+              </a>
+              <!-- 8 card -->
+              <div class="mt-4 flex gap-6 overflow-y-auto hide-scrollbar">
+                <!-- card 1 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item2.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Your shortcut to hidden gems, deep cuts and more
+                  </p>
+                </a>
+                <!-- card 2 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item3.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    ANH TRAI "SAY HI"
+                  </p>
+                </a>
+                <!-- card 3 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item4.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    BUI TRUONG LINH
+                  </p>
+                </a>
+                <!-- card 4 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item5.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    girl in red, Liana Flores
+                  </p>
+                </a>
+                <!-- card 5 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item7.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Luke Chian, Regular Song
+                  </p>
+                </a>
+                <!-- card 6 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item8.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    SON TUNG MTP, Break up in happy
+                  </p>
+                </a>
+                <!-- card 7 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/items1.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Discipline, No love no problems
+                  </p>
+                </a>
+                <!-- card 8 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/pexels-alyona-nagel-1468385055-35224893.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Road to internship, not road to love
+                  </p>
+                </a>
+              </div>
+            </section>
+            <!-- Recently played -->
+            <section class="mt-10 mx-10">
+              <a
+                href="#!"
+                class="text-white text-2xl font-extrabold tracking-tight hover:underline underline-offset-4"
+              >
+                Recently Played
+              </a>
+              <!-- 8 card -->
+              <div class="mt-4 flex gap-6 overflow-y-auto hide-scrollbar">
+                <!-- card 1 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item2.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    I'm in love
+                  </p>
+                </a>
+                <!-- card 2 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item3.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    No love, no problems
+                  </p>
+                </a>
+                <!-- card 3 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item4.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    HongKong 1
+                  </p>
+                </a>
+                <!-- card 4 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item5.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Pin dự phòng
+                  </p>
+                </a>
+                <!-- card 5 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item7.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Dành cho anh
+                  </p>
+                </a>
+                <!-- card 6 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item8.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Buông đôi tay nhau ra
+                  </p>
+                </a>
+                <!-- card 7 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/items1.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Discipline
+                  </p>
+                </a>
+                <!-- card 8 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/pexels-alyona-nagel-1468385055-35224893.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Road to internship, not road to love
+                  </p>
+                </a>
+              </div>
+            </section>
+            <!-- Episodes you might like-->
+            <section class="mt-10 mx-10">
+              <a
+                href="#!"
+                class="text-white text-2xl font-extrabold tracking-tight hover:underline underline-offset-4"
+              >
+                Episodes you might like
+              </a>
+              <!-- 8 card -->
+              <div class="mt-4 flex gap-6 overflow-y-auto hide-scrollbar">
+                <!-- card 1 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item2.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Những người "kén chọn" trong tình yêu
+                  </p>
+                </a>
+                <!-- card 2 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item3.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    QUẢ CAM THỨ 2| Cuộc gặp gỡ cuối cùng
+                  </p>
+                </a>
+                <!-- card 3 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item4.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    How to make every day so fun
+                  </p>
+                </a>
+                <!-- card 4 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item5.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    English podcast for Beginner| Your hobby
+                  </p>
+                </a>
+                <!-- card 5 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item7.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Football - The king of sport
+                  </p>
+                </a>
+                <!-- card 6 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item8.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    The weather today
+                  </p>
+                </a>
+                <!-- card 7 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/items1.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Discipline, No love no problems
+                  </p>
+                </a>
+                <!-- card 8 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/pexels-alyona-nagel-1468385055-35224893.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Road to internship, not road to love
+                  </p>
+                </a>
+              </div>
+            </section>
+            <!-- Popular albums and singles -->
+            <section class="mt-10 mx-10">
+              <a
+                href="#!"
+                class="text-white text-2xl font-extrabold tracking-tight hover:underline underline-offset-4"
+              >
+                Popular albums and singles
+              </a>
+              <!-- 8 card -->
+              <div class="mt-4 flex gap-6 overflow-y-auto hide-scrollbar">
+                <!-- card 1 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item2.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Đánh đổi
+                  </p>
+                </a>
+                <!-- card 2 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item3.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Nắng có mang em về
+                  </p>
+                </a>
+                <!-- card 3 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item4.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Tháng tư là lời nói dối của anh
+                  </p>
+                </a>
+                <!-- card 4 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item5.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Có mình và ta
+                  </p>
+                </a>
+                <!-- card 5 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item7.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Ngày đẹp trời để nói chia tay
+                  </p>
+                </a>
+                <!-- card 6 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/item8.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    No love, no problems
+                  </p>
+                </a>
+                <!-- card 7 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/items1.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Discipline
+                  </p>
+                </a>
+                <!-- card 8 -->
+                <a
+                  href="#!"
+                  class="group flex flex-col gap-2 w-[160px] transition-transform duration-300 ease-out hover:scale-[1.03]"
+                >
+                  <!-- Image -->
+                  <div
+                    class="w-[160px] h-[160px] rounded-xl overflow-hidden bg-[#181818] transition-all duration-300 ease-out group-hover:brightness-110"
+                  >
+                    <img
+                      src="./assets/image/pexels-alyona-nagel-1468385055-35224893.jpg"
+                      alt="card"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <!-- Text -->
+                  <p
+                    class="text-[#b3b3b3] text-sm leading-snug transition-colors duration-200 group-hover:text-white truncate"
+                  >
+                    Road to internship, not road to love
+                  </p>
+                </a>
+              </div>
+            </section>
+            <!-- Footer section 1 -->
+            <footer class="mt-24 px-10 pb-20 text-sm text-neutral-400">
+              <!-- LINE UNDER FOOTER -->
+              <div class="border-t border-neutral-800 mb-16"></div>
+
+              <!-- MAIN FOOTER CONTENT -->
+              <div class="flex justify-between gap-x-16">
+                <!-- LEFT COLUMNS -->
+                <div class="grid grid-cols-4 gap-x-16 items-start">
+                  <!-- Company -->
+                  <div>
+                    <h3
+                      class="text-white font-semibold mb-4 whitespace-nowrap min-h-[20px]"
+                    >
+                      Company
+                    </h3>
+                    <div class="flex flex-col gap-2">
+                      <a href="#" class="footer-link">About</a>
+                      <a href="#" class="footer-link">Jobs</a>
+                      <a href="#" class="footer-link">For the Record</a>
+                    </div>
+                  </div>
+
+                  <!-- Communities -->
+                  <div>
+                    <h3
+                      class="text-white font-semibold mb-4 whitespace-nowrap min-h-[20px]"
+                    >
+                      Communities
+                    </h3>
+                    <div class="flex flex-col gap-2">
+                      <a href="#" class="footer-link">For Artists</a>
+                      <a href="#" class="footer-link">Developers</a>
+                      <a href="#" class="footer-link">Advertising</a>
+                      <a href="#" class="footer-link">Investors</a>
+                      <a href="#" class="footer-link">Vendors</a>
+                    </div>
+                  </div>
+
+                  <!-- Useful links -->
+                  <div>
+                    <h3
+                      class="text-white font-semibold mb-4 whitespace-nowrap min-h-[20px]"
+                    >
+                      Useful links
+                    </h3>
+                    <div class="flex flex-col gap-2">
+                      <a href="#" class="footer-link">Support</a>
+                      <a href="#" class="footer-link">Free Mobile App</a>
+                      <a href="#" class="footer-link">Popular by Country</a>
+                      <a href="#" class="footer-link">Import your music</a>
+                    </div>
+                  </div>
+
+                  <!-- Spotify Plans -->
+                  <div>
+                    <h3
+                      class="text-white font-semibold mb-4 whitespace-nowrap min-h-[20px]"
+                    >
+                      Spotify Plans
+                    </h3>
+                    <div class="flex flex-col gap-2">
+                      <a href="#" class="footer-link">Premium Individual</a>
+                      <a href="#" class="footer-link">Premium Student</a>
+                      <a href="#" class="footer-link">Spotify Free</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- SOCIAL ICONS -->
+                <div class="flex gap-4">
+                  <!-- Instagram -->
+                  <a href="#" class="social-icon">
+                    <svg
+                      class="w-5 h-5 shrink-0 fill-white"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9zm6-1.25a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0z"
+                      />
+                    </svg>
+                  </a>
+
+                  <!-- Twitter -->
+                  <a href="#" class="social-icon">
+                    <svg
+                      class="w-5 h-5 shrink-0 fill-white"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M22 5.9c-.8.4-1.6.6-2.5.7a4.3 4.3 0 001.9-2.4 8.6 8.6 0 01-2.7 1 4.3 4.3 0 00-7.4 3 4 4 0 00.1 1A12.2 12.2 0 013 4.8a4.3 4.3 0 001.3 5.7c-.6 0-1.2-.2-1.7-.4v.1a4.3 4.3 0 003.4 4.2c-.4.1-.8.2-1.2.2-.3 0-.6 0-.8-.1a4.3 4.3 0 004 3 8.7 8.7 0 01-5.3 1.8A9 9 0 012 19a12.2 12.2 0 006.6 1.9c7.9 0 12.2-6.6 12.2-12.2v-.6A8.4 8.4 0 0022 5.9z"
+                      />
+                    </svg>
+                  </a>
+
+                  <!-- Facebook -->
+                  <a href="#" class="social-icon">
+                    <svg
+                      class="w-5 h-5 shrink-0 fill-white"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M22 12a10 10 0 10-11.5 9.9v-7h-2v-2.9h2V9.6c0-2 1.2-3.1 3-3.1.9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2v1.4h2.3l-.4 2.9h-1.9v7A10 10 0 0022 12z"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <!-- BOTTOM LINE -->
+              <div class="border-t border-neutral-800 mt-16 mb-6"></div>
+
+              <!-- LEGAL -->
+              <div class="flex justify-between flex-wrap gap-y-4">
+                <div class="flex gap-x-6 gap-y-2 flex-wrap">
+                  <a href="#" class="footer-legal">Legal</a>
+                  <a href="#" class="footer-legal">Safety & Privacy Center</a>
+                  <a href="#" class="footer-legal">Privacy Policy</a>
+                  <a href="#" class="footer-legal">Cookies</a>
+                  <a href="#" class="footer-legal">About Ads</a>
+                  <a href="#" class="footer-legal">Accessibility</a>
+                </div>
+
+                <span class="text-neutral-500"> © 2026 Spotify AB </span>
+              </div>
+            </footer>
+          </div>
+        </section>
+        <!-- SECTION2 Details-panel-->
+        <section
+          class="flex flex-1 min-w-0 min-h-0 bg-[#121212] mx-2 rounded-lg"
+          style="flex: 4 1 0%"
+        ></section>
       </main>
     </div>
 
     <!-- PLAYER BAR -->
-    <footer id="player-bar" class="h-20 bg-black shrink-0 flex items-center px-4">
-        <!-- Music Information -->
-        <div class="flex items-center gap-3 min-w-0 flex-[0_0_30%]"></div>
-        <!-- Play, Next, Previous Controls -->
-        <div class="flex-1 flex flex-col items-center"></div>
+    <footer
+      id="music-footer"
+      class="h-[72px] bg-black flex items-center shrink-0 w-full px-4 py-4 overflow-visible"
+    >
+      <!-- Left -->
+      <div class="flex items-center h-full" style="flex: 3 1 0%">
+        <button
+          class="w-12 h-12 bg-white border border-gray-200 rounded-lg cursor-pointer"
+        ></button>
+        <div class="flex flex-col ml-4">
+          <a
+            href="#!"
+            id="music-name"
+            class="text-white text-[15px] font-normal transition-transform duration-300 ease-out hover:translate-x-2 cursor-pointer"
+            >abc</a
+          >
+          <a
+            href="#!"
+            id="artist-name"
+            class="text-gray-500 text-[13px] font-light inline-block transition-all duration-150 ease-out hover:text-white hover:scale-110 origin-left cursor-pointer"
+            >cde</a
+          >
+        </div>
+      </div>
+      <!-- Center -->
+      <div
+        class="flex flex-col items-center justify-center h-full"
+        style="flex: 4 1 0%"
+      >
+        <!-- Previous -->
+        <div class="flex gap-4 items-center justify-center w-full">
+          <button
+            id="previus-btn"
+            class="cursor-pointer transition-all duration-150 ease-out hover:bg-white hover:scale-110 hover:text-white active:scale-95"
+          >
+            <svg
+              viewBox="0 0 16 16"
+              class="w-4 h-4 text-[#ccc]"
+              fill="currentColor"
+            >
+              <path
+                d="M3.3 1a.7.7 0 0 1 .7.7v5.15l9.95-5.744a.7.7 0 0 1 1.05.606v12.575a.7.7 0 0 1-1.05.607L4 9.149V14.3a.7.7 0 0 1-.7.7H1.7a.7.7 0 0 1-.7-.7V1.7a.7.7 0 0 1 .7-.7z"
+              ></path>
+            </svg>
+          </button>
+          <!-- Play -->
+          <button
+            id="play-button"
+            class="cursor-pointer w-8 h-8 rounded-full bg-white flex items-center justify-center transition-all duration-150 ease-out hover:bg-[#e5e5e5] hover:scale-105 active:scale-95"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 16 16"
+              class="text-black translate-x-[0.5px]"
+              fill="currentColor"
+            >
+              <path
+                d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288z"
+              ></path>
+            </svg>
+          </button>
+          <!-- Next -->
+          <button
+            id="next-btn"
+            class="cursor-pointer transition-all duration-150 ease-out hover:bg-white hover:scale-110 hover:text-white active:scale-95"
+          >
+            <svg
+              viewBox="0 0 16 16"
+              class="w-4 h-4 text-[#ccc]"
+              fill="currentColor"
+            >
+              <path
+                d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.107A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 .7.7h1.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <!-- Play range -->
+        <div class="flex items-center gap-3 w-full mt-1">
+          <!-- current time -->
+          <span
+            class="text-xs text-[#b3b3b3] w-10 text-right select-none"
+            data-current-time
+          >
+            0:00
+          </span>
+
+          <!-- progress -->
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value="40"
+            data-progress
+            class="progress-range flex-1 cursor-pointer"
+            style="--progress: 40%"
+          />
+
+          <!-- duration -->
+          <span class="text-xs text-[#b3b3b3] w-10 select-none" data-duration>
+            0:00
+          </span>
+        </div>
+      </div>
+      <!-- Right -->
+      <div
+        class="flex items-center justify-end h-full overflow-visible gap-4"
+        style="flex: 3 1 0%"
+      >
+        <!-- Lyrics -->
+        <a
+          href="#!"
+          id="lyrics"
+          class="relative group transition-transform duration-150 hover:scale-105"
+        >
+          <svg
+            viewBox="0 0 16 16"
+            class="w-4 h-4 text-[#ccc] transition-colors duration-150 group-hover:text-white"
+            fill="currentColor"
+          >
+            <path
+              d="M13.426 2.574a2.831 2.831 0 0 0-4.797 1.55l3.247 3.247a.831.831 0 0 0 1.55-4.797M10.5 8.118l-2.619-2.62L4.74 9.075 2.065 12.12a1.287 1.287 0 0 0 1.816 1.816l3.06-2.688 3.56-3.129zM7.12 4.094a4.331 4.331 0 1 1 4.786 4.786l-3.974 3.493-3.06 2.689a2.787 2.787 0 0 1-3.933-3.933l2.676-3.045z"
+            />
+          </svg>
+        </a>
+
         <!-- Volume -->
-        <div class="flex items-center justify-end gap-3 flex-[0_0_30%]"></div>
+        <div>
+          <button id="data-volume" class="cursor-pointer">
+            <svg
+              viewBox="0 0 16 16"
+              class="w-4 h-4 text-[#ccc]"
+              fill="currentColor"
+            >
+              <path
+                d="M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.64 3.64 0 0 1-1.33-4.967 3.64 3.64 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.14 2.14 0 0 0 0 3.7l5.8 3.35V2.8zm8.683 4.29V5.56a2.75 2.75 0 0 1 0 4.88"
+              ></path>
+              <path
+                d="M11.5 13.614a5.752 5.752 0 0 0 0-11.228v1.55a4.252 4.252 0 0 1 0 8.127z"
+              ></path>
+            </svg>
+          </button>
+          <input
+            id="volumeRange"
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+            class="volume-slider cursor-pointer"
+          />
+        </div>
+        <!-- PiP -->
+        <button
+          id="pic-in-pic"
+          class="cursor-pointer flex items-center relative group transition-transform duration-150 hover:scale-105"
+        >
+          <svg
+            viewBox="0 0 16 16"
+            class="w-5 p-5 text-[#ccc] transition-colors duration-150 group-hover:text-white"
+            fill="currentColor"
+          >
+            <path
+              d="M16 2.45c0-.8-.65-1.45-1.45-1.45H1.45C.65 1 0 1.65 0 2.45v11.1C0 14.35.65 15 1.45 15h5.557v-1.5H1.5v-11h13V7H16z"
+            />
+            <path
+              d="M15.25 9.007a.75.75 0 0 1 .75.75v4.493a.75.75 0 0 1-.75.75H9.325a.75.75 0 0 1-.75-.75V9.757a.75.75 0 0 1 .75-.75z"
+            />
+          </svg>
+        </button>
+
+        <!-- Fullscreen -->
+        <button
+          id="full-screen"
+          class="cursor-pointer transition-transform duration-150 hover:scale-105 group"
+        >
+          <svg
+            viewBox="0 0 16 16"
+            class="w-5 h-5 text-[#ccc] transition-colors duration-150 group-hover:text-white"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.25 3C0.25 2.0335 1.0335 1.25 2 1.25H5.375V2.75H2C1.86193 2.75 1.75 2.86193 1.75 3V5.42857H0.25V3ZM14 2.75H10.625V1.25H14C14.9665 1.25 15.75 2.0335 15.75 3V5.42857H14.25V3C14.25 2.86193 14.1381 2.75 14 2.75ZM1.75 10.5714V13C1.75 13.1381 1.86193 13.25 2 13.25H5.375V14.75H2C1.0335 14.75 0.25 13.9665 0.25 13V10.5714H1.75ZM14.25 13V10.5714H15.75V13C15.75 13.9665 14.9665 14.75 14 14.75H10.625V13.25H14C14.1381 13.25 14.25 13.1381 14.25 13Z"
+            />
+          </svg>
+        </button>
+      </div>
     </footer>
   </body>
 </html>
