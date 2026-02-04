@@ -47,8 +47,28 @@ export function getIsPlaying() {
     return isPlaying;
 }
 
+// export loadSong() and play()
+export function getLoadSong(index) {
+    return loadSong(index);
+}
+export function getPlay() {
+    return play();
+}
+
 // starting with the first song when the app is setting
 loadSong(0); 
+
+// let UI know current song
+export function getCurrentSong() {
+    return songs[currentIndex];
+}
+
+// export audio() for main.js
+export function getAudio() {
+    return audio;
+}
+
+
 
 
 
