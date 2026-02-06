@@ -280,130 +280,9 @@
           </div>
           <!-- Main content in section 1 -->
           <div class="flex-1 min-h-0 flex flex-col [&>*]:shrink-0">
-            <!-- 6 Items -->
+            <!-- 8 Items -->
             <section class="px-10 pt-4">
-              <div class="grid grid-cols-4 gap-3">
-                <!-- item 1 -->
-                <a
-                  href="#!"
-                  data-index="0"
-                  class="song-card group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
-                >
-                  <img
-                    src="./assets/image/items1.jpg"
-                    class="w-[72px] h-[72px] object-cover shrink-0"
-                    alt=""
-                  />
-                  <span class="px-4 text-white font-semibold truncate"
-                    >blue</span
-                  >
-                </a>
-
-                <!-- item 2 -->
-                <a
-                  href="#!"
-                  data-index="1"
-                  class="song-card group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
-                >
-                  <img
-                    src="./assets/image/item2.jpg"
-                    class="w-[72px] h-[72px] object-cover shrink-0"
-                    alt=""
-                  />
-                  <span class="px-4 text-white font-semibold truncate"
-                    >Tình Đắng Như Ly Cà Phê Radio</span
-                  >
-                </a>
-
-                <!-- item 3 -->
-                <a
-                  href="#!"
-                  data-index="2"
-                  class="song-card group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
-                >
-                  <img
-                    src="./assets/image/item3.jpg"
-                    class="w-[72px] h-[72px] object-cover shrink-0"
-                    alt=""
-                  />
-                  <span class="px-4 text-white font-semibold truncate"
-                    >Từng Ngày Như Mãi Mãi</span
-                  >
-                </a>
-
-                <!-- item 4 -->
-                <a
-                  href="#!"
-                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
-                >
-                  <img
-                    src="./assets/image/item4.jpg"
-                    class="w-[72px] h-[72px] object-cover shrink-0"
-                    alt=""
-                  />
-                  <span class="px-4 text-white font-semibold truncate"
-                    >Dhruv</span
-                  >
-                </a>
-
-                <!-- item 5 -->
-                <a
-                  href="#!"
-                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
-                >
-                  <img
-                    src="./assets/image/item5.jpg"
-                    class="w-[72px] h-[72px] object-cover shrink-0"
-                    alt=""
-                  />
-                  <span class="px-4 text-white font-semibold truncate"
-                    >Daily Mix 3</span
-                  >
-                </a>
-
-                <!-- item 6 -->
-                <a
-                  href="#!"
-                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
-                >
-                  <img
-                    src="./assets/image/item6.jpg"
-                    class="w-[72px] h-[72px] object-cover shrink-0"
-                    alt=""
-                  />
-                  <span class="px-4 text-white font-semibold truncate"
-                    >Jazz Vibes</span
-                  >
-                </a>
-                <!-- item 7 -->
-                <a
-                  href="#!"
-                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
-                >
-                  <img
-                    src="./assets/image/item7.jpg"
-                    class="w-[72px] h-[72px] object-cover shrink-0"
-                    alt=""
-                  />
-                  <span class="px-4 text-white font-semibold truncate"
-                    >Jazz Vibes</span
-                  >
-                </a>
-                <!-- item 8 -->
-                <a
-                  href="#!"
-                  class="group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition"
-                >
-                  <img
-                    src="./assets/image/item8.jpg"
-                    class="w-[72px] h-[72px] object-cover shrink-0"
-                    alt=""
-                  />
-                  <span class="px-4 text-white font-semibold truncate"
-                    >Jazz Vibes</span
-                  >
-                </a>
-              </div>
+              <div id="song-list" class="grid grid-cols-4 gap-3"></div>
             </section>
             <!-- Made For You -->
             <section class="mt-10 mx-10">
@@ -1333,8 +1212,16 @@
       <!-- Left -->
       <div class="flex items-center h-full" style="flex: 3 1 0%">
         <button
-          class="w-12 h-12 bg-white border border-gray-200 rounded-lg cursor-pointer"
-        ></button>
+          class="w-12 h-12 rounded-lg overflow-hidden bg-[#181818] cursor-pointer"
+        >
+          <img
+            id="cover"
+            src=""
+            alt="cover"
+            class="w-full h-full object-cover"
+          />
+        </button>
+
         <div class="flex flex-col ml-4">
           <a
             href="#!"
@@ -1422,7 +1309,8 @@
           <!-- current time -->
           <span
             class="text-xs text-[#b3b3b3] w-10 text-right select-none"
-            data-current-time          >
+            data-current-time
+          >
             0:00
           </span>
 

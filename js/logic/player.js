@@ -1,4 +1,4 @@
-import { songs } from "./data.js";
+import { songs } from "../data/data.js";
 
 const audio = new Audio(); // use Audio object to use function of this object
 
@@ -6,73 +6,64 @@ let currentIndex = 0; // current index
 let isPlaying = false; // set up state for play button
 
 // loadSong: pick the song for player
-export function loadSong(index) { 
-    currentIndex = index;
-    audio.src = songs[currentIndex].src;
+export function loadSong(index) {
+  currentIndex = index;
+  audio.src = songs[currentIndex].src;
 }
 
 // play function
 export function play() {
-    audio.play();
-    isPlaying = true;
+  audio.play();
+  isPlaying = true;
 }
 
 // pause function
 export function pause() {
-    audio.pause();
-    isPlaying = false;
+  audio.pause();
+  isPlaying = false;
 }
 
 // togglePlay function like switch
 export function togglePlay() {
-    isPlaying ? pause() : play();
+  isPlaying ? pause() : play();
 }
 
 // next function for choosing the next song
 export function next() {
-    currentIndex = (currentIndex + 1) % songs.length; 
-    loadSong(currentIndex);
-    play();
+  currentIndex = (currentIndex + 1) % songs.length;
+  loadSong(currentIndex);
+  play();
 }
 
 // prev function for choosing the previous song
 export function prev() {
-    currentIndex = (currentIndex - 1 + songs.length) % songs.length;
-    loadSong(currentIndex);
-    play();
+  currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+  loadSong(currentIndex);
+  play();
 }
 
 // export isPlaying for using in main.js
 export function getIsPlaying() {
-    return isPlaying;
+  return isPlaying;
 }
 
 // export loadSong() and play()
 export function getLoadSong(index) {
-    return loadSong(index);
+  return loadSong(index);
 }
 export function getPlay() {
-    return play();
+  return play();
 }
 
 // starting with the first song when the app is setting
-loadSong(0); 
+loadSong(0);
 
 // let UI know current song
 export function getCurrentSong() {
-    return songs[currentIndex];
+  return songs[currentIndex];
 }
 
 // export audio() for main.js
 export function getAudio() {
-    return audio;
+  return audio;
 }
-
-
-
-
-
-
-
-
-

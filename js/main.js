@@ -7,7 +7,17 @@ import {
   getAudio,
   getLoadSong,
   getPlay,
-} from "./player.js";
+} from "./logic/player.js";
+
+import { songs } from "./data/data.js";
+
+import { formatTime } from "./utils/formattime.js";
+
+import { getRandomItems } from "./utils/random.js";
+
+import { renderSongs } from "./ui/renderSongs.js";
+
+import { renderSongInfo } from "./ui/renderSongInfo.js";
 
 // Button
 const playBtn = document.getElementById("play-button");
@@ -25,8 +35,13 @@ const progress = document.querySelector("[data-progress]");
 const currentTimeEl = document.querySelector("[data-current-time]");
 const durationTimeEl = document.querySelector("[data-duration]");
 
-// Interaction UI for play song element
-const songCards = document.querySelectorAll(".song-card");
+// Get HTML element whose is a skeleton of 8 items
+const songList = document.getElementById("song-list");
+
+// limit 8 songs when render in 8 items at head
+const randomSongs = getRandomItems(songs, 8);
+// Get current song when app init
+const currentSong = getCurrentSong();
 
 // Get audio()
 const audio = getAudio();
@@ -42,27 +57,13 @@ function updatePlayIcon(isPlaying) {
   }
 }
 
-// Render information of current song
-function renderSongInfo() {
-  const song = getCurrentSong();
-  musicName.textContent = song.title;
-  artistName.textContent = song.artist;
-}
+// Render song with data, not depend on hard code
+renderSongs({ songs: randomSongs, container: songList });
+// Interaction UI for play song element
+const songCards = document.querySelectorAll(".song-card");
 
-// Format second -> mm:ss
-function formatTime(time) {
-  if (isNaN(time)) return "0:00";
-
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60)
-    .toString()
-    .padStart(2, "0");
-
-  return `${minutes}:${seconds}`;
-}
-
-// Render the first song when app init
-renderSongInfo();
+// Render information of current song when app init
+renderSongInfo(currentSong);
 updatePlayIcon(getIsPlaying());
 
 // Render play and pause icon
@@ -74,12 +75,12 @@ playBtn.addEventListener("click", () => {
 // Render when click next and previous button
 nextBtn.addEventListener("click", () => {
   next();
-  renderSongInfo();
+  renderSongInfo(getCurrentSong());
   updatePlayIcon(true);
 });
 prevBtn.addEventListener("click", () => {
   prev();
-  renderSongInfo();
+  renderSongInfo(getCurrentSong());
   updatePlayIcon(true);
 });
 
@@ -112,7 +113,7 @@ songCards.forEach((card) => {
 
     getLoadSong(index);
     getPlay();
-    renderSongInfo();
+    renderSongInfo(getCurrentSong());
     updatePlayIcon(true);
   });
 });
