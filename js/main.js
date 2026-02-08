@@ -2,33 +2,20 @@ import {
   togglePlay,
   next,
   prev,
-  getIsPlaying,
-  getCurrentSong,
   getAudio,
-  getLoadSong,
-  getPlay,
 } from "./logic/player.js";
 
 import { songs } from "./data/data.js";
-
 import { formatTime } from "./utils/formattime.js";
-
 import { getRandomItems } from "./utils/random.js";
-
 import { renderSongs } from "./ui/renderSongs.js";
-
-import { renderSongInfo } from "./ui/renderSongInfo.js";
+import { updateUIAfterPlay } from "./ui/updateUIAfterPlay.js";
+import { handleSongClick } from "./handlers/songClickHandler.js";
 
 // Button
 const playBtn = document.getElementById("play-button");
-const playIcon = document.getElementById("play-icon");
-const pauseIcon = document.getElementById("pause-icon");
 const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("previous-btn");
-
-// Song info
-const musicName = document.getElementById("music-name");
-const artistName = document.getElementById("artist-name");
 
 // Progress bar elements
 const progress = document.querySelector("[data-progress]");
@@ -39,49 +26,38 @@ const durationTimeEl = document.querySelector("[data-duration]");
 const songList = document.getElementById("song-list");
 
 // limit 8 songs when render in 8 items at head
-const randomSongs = getRandomItems(songs, 8);
-// Get current song when app init
-const currentSong = getCurrentSong();
+const randomSongs = getRandomItems(
+  songs.map((song, index) => ({
+    ...song,
+    _originIndex: index,
+  })),
+  8
+);
 
 // Get audio()
 const audio = getAudio();
-//******RENDER FUNCTION******
-// Change icon when play or pause
-function updatePlayIcon(isPlaying) {
-  if (isPlaying) {
-    playIcon.classList.add("hidden");
-    pauseIcon.classList.remove("hidden");
-  } else {
-    pauseIcon.classList.add("hidden");
-    playIcon.classList.remove("hidden");
-  }
-}
 
-// Render song with data, not depend on hard code
+// Init app
 renderSongs({ songs: randomSongs, container: songList });
-// Interaction UI for play song element
-const songCards = document.querySelectorAll(".song-card");
-
-// Render information of current song when app init
-renderSongInfo(currentSong);
-updatePlayIcon(getIsPlaying());
+updateUIAfterPlay();
 
 // Render play and pause icon
 playBtn.addEventListener("click", () => {
   togglePlay();
-  updatePlayIcon(getIsPlaying());
+  updateUIAfterPlay();
 });
+
+// Handling when click UI for playing song
+songList.addEventListener("click", handleSongClick);
 
 // Render when click next and previous button
 nextBtn.addEventListener("click", () => {
   next();
-  renderSongInfo(getCurrentSong());
-  updatePlayIcon(true);
+  updateUIAfterPlay();
 });
 prevBtn.addEventListener("click", () => {
   prev();
-  renderSongInfo(getCurrentSong());
-  updatePlayIcon(true);
+  updateUIAfterPlay();
 });
 
 // ******Audio <-> UI******
@@ -104,16 +80,4 @@ audio.ontimeupdate = () => {
 progress.addEventListener("input", () => {
   const newTime = (progress.value / 100) * audio.duration;
   audio.currentTime = newTime;
-});
-
-// Handling when click UI for playing song
-songCards.forEach((card) => {
-  card.addEventListener("click", () => {
-    const index = Number(card.dataset.index);
-
-    getLoadSong(index);
-    getPlay();
-    renderSongInfo(getCurrentSong());
-    updatePlayIcon(true);
-  });
 });

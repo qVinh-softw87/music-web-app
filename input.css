@@ -168,3 +168,31 @@
          hover:bg-neutral-700;
 }
 
+/* highlight when click card to play */
+.song-card {
+  position: relative;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.song-card:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.song-card.active {
+  background: rgba(255,255,255,0.18);
+}
+
+.song-card.active::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 12%;
+  bottom: 12%;
+  width: 4px;
+  background: linear-gradient(to bottom, #1db954, #1ed760);
+  border-radius: 999px;
+}
+

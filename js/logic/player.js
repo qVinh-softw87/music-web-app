@@ -60,7 +60,11 @@ loadSong(0);
 
 // let UI know current song
 export function getCurrentSong() {
-  return songs[currentIndex];
+  return {
+    // spread operator (toán tử trải) trải ra để thêm index vào
+    ...songs[currentIndex],
+    index: currentIndex,
+  };
 }
 
 // export audio() for main.js
