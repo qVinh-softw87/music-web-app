@@ -1,10 +1,10 @@
 export function renderSongs({ container, songs }) {
   container.innerHTML = "";
 
-  songs.forEach((song) => {
+  songs.forEach((song, index) => {
     const card = document.createElement("a");
     card.href = "#!";
-    card.dataset.index = song._originIndex;
+    card.dataset.index = index; // ✅ index theo list đang render
 
     card.className =
       "song-card group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition";

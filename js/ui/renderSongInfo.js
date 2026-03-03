@@ -1,11 +1,10 @@
-export function renderSongInfo(song) {
-  const musicName = document.getElementById("music-name");
-  const artistName = document.getElementById("artist-name");
-  const coverImg = document.getElementById("cover");
+import { getCurrentSong } from "../logic/player.js";
 
-  if(!song) return;
-      
-  musicName.textContent = song.title;
-  artistName.textContent = song.artist;
-  coverImg.src = song.cover;
+export function renderSongInfo() {
+  const song = getCurrentSong();
+  if (!song) return;
+
+  document.getElementById("music-name").textContent = song.title;
+  document.getElementById("artist-name").textContent = song.artist;
+  document.getElementById("cover").src = song.cover;
 }

@@ -51,22 +51,14 @@
   overflow-y: auto;
   min-height: 0;
 
-  /* quan trọng: tránh layout bị "ép" / nhảy khi scrollbar xuất hiện */
   scrollbar-gutter: stable;
 
-  /* biến để dùng chung màu nền sticky & scrollbar-track */
-  --sticky-bg: linear-gradient(180deg, rgba(120,140,60,0.85) 0%, rgba(18,18,18,0.0) 70%);
-  --track-bg: var(--sticky-bg);
-
-  /* màu thumb kiểu spotify */
   --thumb: rgba(255,255,255,0.45);
   --thumb-hover: rgba(255,255,255,0.65);
 
-  /* ẩn scrollbar mặc định (Firefox) */
   scrollbar-width: none;
 }
 
-/* hover mới hiện (Firefox) */
 .section1:hover {
   scrollbar-width: thin;
   scrollbar-color: var(--thumb) transparent;
@@ -79,7 +71,6 @@
   z-index: 30;
 }
 
-/* Nền sticky: dùng cùng biến --sticky-bg */
 .section1 .header-sticky::before {
   content: "";
   position: absolute;
@@ -93,14 +84,8 @@
   width: 12px;
 }
 
-/* ẩn mặc định */
 .section1:not(:hover)::-webkit-scrollbar {
   width: 0px;
-}
-
-/* Track = cùng background với sticky (để "tràn" liền mạch) */
-.section1::-webkit-scrollbar-track {
-  background: var(--track-bg);
 }
 
 /* Thumb */
@@ -108,7 +93,6 @@
   background: var(--thumb);
   border-radius: 999px;
 
-  /* tạo cảm giác thumb mảnh nằm giữa track */
   border: 3px solid transparent;
   background-clip: content-box;
 }
@@ -123,8 +107,6 @@
   position: sticky;
   top: 0;
   z-index: 20;
-
-  /* nền mờ + blur giống Spotify */
   background: linear-gradient(
     to bottom,
     rgba(18, 18, 18, 0.95) 0%,
@@ -136,12 +118,10 @@
   -webkit-backdrop-filter: blur(8px);
 }
 
-/* để tránh content bị che khi sticky */
 .section1 {
-  scroll-padding-top: 64px; /* chiều cao header */
+  scroll-padding-top: 64px; 
 }
 
-/* Ẩn scrollbar nhưng vẫn scroll được */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -194,5 +174,193 @@
   width: 4px;
   background: linear-gradient(to bottom, #1db954, #1ed760);
   border-radius: 999px;
+}
+
+/* =============================
+   FULLSCREEN OVERLAY
+============================= */
+#fs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+}
+
+#fs-overlay.active {
+  display: block;
+}
+
+#fs-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(80px) brightness(0.3) saturate(1.6);
+  transform: scale(1.15);
+  transition: background-image 0.5s ease;
+}
+
+.fs-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.15) 55%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+.fs-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  padding: 8px;
+  border-radius: 999px;
+  color: #1ed760;
+  transition: transform 0.15s;
+}
+
+.fs-center {
+  position: relative;
+  z-index: 2;
+  height: calc(100% - 220px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding-bottom: 120px;
+}
+
+#fs-cover {
+  width: min(360px, 50vmin);
+  height: min(360px, 50vmin);
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.75);
+  flex-shrink: 0;
+}
+
+.fs-meta {
+  max-width: 260px;
+}
+
+.fs-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fs-artist {
+  font-size: 15px;
+  color: #b3b3b3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fs-controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  padding: 0 80px 44px;
+  box-sizing: border-box;
+}
+
+.fs-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.fs-time {
+  font-size: 12px;
+  color: #b3b3b3;
+  width: 38px;
+  flex-shrink: 0;
+}
+
+#fs-progress,
+#fs-volume {
+  height: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 2px;
+  cursor: pointer;
+  outline: none;
+  background: linear-gradient(to right, #fff 0%, rgba(255,255,255,0.3) 0%);
+}
+
+#fs-progress::-webkit-slider-thumb,
+#fs-volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+#fs-progress::-moz-range-thumb,
+#fs-volume::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.fs-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+}
+
+.fs-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #b3b3b3;
+  padding: 8px;
+  transition: color 0.15s, transform 0.15s;
+}
+
+.fs-play {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+
+.fs-volume-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+#fs-volume {
+  width: 130px;
 }
 

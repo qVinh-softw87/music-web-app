@@ -279,7 +279,7 @@
             </div>
           </div>
           <!-- Main content in section 1 -->
-          <div class="flex-1 min-h-0 flex flex-col [&>*]:shrink-0">
+          <div class="flex-1 min-h-0 flex flex-col">
             <!-- 8 Items -->
             <section class="px-10 pt-4">
               <div id="song-list" class="grid grid-cols-4 gap-3"></div>
@@ -1243,6 +1243,32 @@
         style="flex: 4 1 0%"
       >
         <div class="flex gap-4 items-center justify-center w-full">
+          <!-- Shuffle -->
+          <button
+            id="shuffle-btn"
+            class="relative group cursor-pointer transition-all duration-150 ease-out hover:scale-110 active:scale-95"
+          >
+            <svg
+              id="shuffle-icon"
+              viewBox="0 0 16 16"
+              class="w-4 h-4 transition-colors duration-150"
+              fill="currentColor"
+            >
+              <path
+                d="M13.151.922a.75.75 0 1 0-1.06 1.06L13.109 3H11.16a3.75 3.75 0 0 0-2.873 1.34l-6.173 7.356A2.25 2.25 0 0 1 .39 12.5H0V14h.391a3.75 3.75 0 0 0 2.873-1.34l6.173-7.356a2.25 2.25 0 0 1 1.724-.804h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 3.75zM.391 3.5H0V2h.391c1.109 0 2.16.49 2.873 1.34L4.89 5.277l-.979 1.167-1.796-2.14A2.25 2.25 0 0 0 .39 3.5z"
+              ></path>
+              <path
+                d="m7.5 10.723.98-1.167.957 1.14a2.25 2.25 0 0 0 1.724.804h1.947l-1.017-1.018a.75.75 0 1 1 1.06-1.06l2.829 2.828-2.829 2.828a.75.75 0 1 1-1.06-1.06L13.109 13H11.16a3.75 3.75 0 0 1-2.873-1.34l-.787-.938z"
+              ></path>
+            </svg>
+            <!-- Tooltip -->
+            <span
+              id="shuffle-tooltip"
+              class="pointer-events-none absolute bottom-full left-3 mb-3 whitespace-nowrap rounded-md bg-[#2a2a2a] px-3 py-1.5 text-sm text-white opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-150 ease-out z-50 shadow-lg"
+            >
+              Enable shuffle
+            </span>
+          </button>
           <!-- Previous -->
           <button
             id="previous-btn"
@@ -1302,6 +1328,30 @@
                 d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.107A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 .7.7h1.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7z"
               ></path>
             </svg>
+          </button>
+          <!-- repeat -->
+          <button
+            id="repeat-btn"
+            class="relative group cursor-pointer transition-all duration-150 ease-out hover:scale-110 hover:text-white active:scale-95"
+          >
+            <svg
+              id="repeat-icon"
+              viewBox="0 0 16 16"
+              class="w-4 h-4 transition-colors duration-150"
+              fill="currentColor"
+            >
+              <path
+                d="M0 4.75A3.75 3.75 0 0 1 3.75 1h8.5A3.75 3.75 0 0 1 16 4.75v5a3.75 3.75 0 0 1-3.75 3.75H9.81l1.018 1.018a.75.75 0 1 1-1.06 1.06L6.939 12.75l2.829-2.828a.75.75 0 1 1 1.06 1.06L9.811 12h2.439a2.25 2.25 0 0 0 2.25-2.25v-5a2.25 2.25 0 0 0-2.25-2.25h-8.5A2.25 2.25 0 0 0 1.5 4.75v5A2.25 2.25 0 0 0 3.75 12H5v1.5H3.75A3.75 3.75 0 0 1 0 9.75z"
+              ></path>
+            </svg>
+
+            <!-- Tooltip -->
+            <span
+              id="repeat-tooltip"
+              class="pointer-events-none absolute bottom-full left-3 mb-3 whitespace-nowrap rounded-md bg-[#2a2a2a] px-3 py-1.5 text-sm text-white opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-150 ease-out z-50 shadow-lg"
+            >
+              Enable repeat all
+            </span>
           </button>
         </div>
         <!-- Play range -->
@@ -1378,24 +1428,6 @@
             class="volume-slider cursor-pointer"
           />
         </div>
-        <!-- PiP -->
-        <button
-          id="pic-in-pic"
-          class="cursor-pointer flex items-center relative group transition-transform duration-150 hover:scale-105"
-        >
-          <svg
-            viewBox="0 0 16 16"
-            class="w-5 p-5 text-[#ccc] transition-colors duration-150 group-hover:text-white"
-            fill="currentColor"
-          >
-            <path
-              d="M16 2.45c0-.8-.65-1.45-1.45-1.45H1.45C.65 1 0 1.65 0 2.45v11.1C0 14.35.65 15 1.45 15h5.557v-1.5H1.5v-11h13V7H16z"
-            />
-            <path
-              d="M15.25 9.007a.75.75 0 0 1 .75.75v4.493a.75.75 0 0 1-.75.75H9.325a.75.75 0 0 1-.75-.75V9.757a.75.75 0 0 1 .75-.75z"
-            />
-          </svg>
-        </button>
 
         <!-- Fullscreen -->
         <button

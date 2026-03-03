@@ -1,73 +1,83 @@
-import { songs } from "../data/data.js";
+import { playerState } from "../state/playerState.js";
 
-const audio = new Audio(); // use Audio object to use function of this object
+const audio = new Audio();
 
-let currentIndex = 0; // current index
-let isPlaying = false; // set up state for play button
+/* ======================
+   AUDIO
+====================== */
 
-// loadSong: pick the song for player
+export function getAudio() {
+  return audio;
+}
+
+/* ======================
+   STATE ACTIONS
+====================== */
+
 export function loadSong(index) {
-  currentIndex = index;
-  audio.src = songs[currentIndex].src;
+  playerState.currentIndex = index;
 }
 
-// play function
 export function play() {
-  audio.play();
-  isPlaying = true;
+  playerState.isPlaying = true;
 }
 
-// pause function
 export function pause() {
-  audio.pause();
-  isPlaying = false;
+  playerState.isPlaying = false;
 }
 
-// togglePlay function like switch
 export function togglePlay() {
-  isPlaying ? pause() : play();
+  playerState.isPlaying ? pause() : play();
 }
 
-// next function for choosing the next song
 export function next() {
-  currentIndex = (currentIndex + 1) % songs.length;
-  loadSong(currentIndex);
-  play();
+  if (!playerState.songs.length) return;
+
+  if (playerState.shuffle) {
+    const randomIndex = Math.floor(Math.random() * playerState.songs.length);
+
+    playerState.currentIndex = randomIndex;
+  } else {
+    playerState.currentIndex =
+      (playerState.currentIndex + 1) % playerState.songs.length;
+  }
+
+  playerState.isPlaying = true;
 }
 
-// prev function for choosing the previous song
 export function prev() {
-  currentIndex = (currentIndex - 1 + songs.length) % songs.length;
-  loadSong(currentIndex);
-  play();
+  if (!playerState.songs.length) return;
+  playerState.currentIndex =
+    (playerState.currentIndex - 1 + playerState.songs.length) %
+    playerState.songs.length;
+  playerState.isPlaying = true;
 }
 
-// export isPlaying for using in main.js
-export function getIsPlaying() {
-  return isPlaying;
-}
+/* ======================
+   SELECTORS
+====================== */
 
-// export loadSong() and play()
-export function getLoadSong(index) {
-  return loadSong(index);
-}
-export function getPlay() {
-  return play();
-}
-
-// starting with the first song when the app is setting
-loadSong(0);
-
-// let UI know current song
 export function getCurrentSong() {
+  const song = playerState.songs[playerState.currentIndex];
+  if (!song) return null;
+
   return {
-    // spread operator (toán tử trải) trải ra để thêm index vào
-    ...songs[currentIndex],
-    index: currentIndex,
+    ...song,
+    index: playerState.currentIndex,
   };
 }
 
-// export audio() for main.js
-export function getAudio() {
-  return audio;
+export function getIsPlaying() {
+  return playerState.isPlaying;
+}
+// Handling repeat toggle
+export function toggleRepeat() {
+  const modes = ["off", "all", "one"];
+  const currentIndex = modes.indexOf(playerState.repeatMode);
+  const nextIndex = (currentIndex + 1) % modes.length;
+  playerState.repeatMode = modes[nextIndex];
+}
+// Handling shuffle toggle
+export function toggleShuffle() {
+  playerState.shuffle = !playerState.shuffle;
 }

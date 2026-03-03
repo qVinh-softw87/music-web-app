@@ -1,16 +1,14 @@
-import { getLoadSong, getPlay } from "../logic/player.js";
-import { updateUIAfterPlay } from "../ui/updateUIAfterPlay.js";
+import { loadSong, play } from "../logic/player.js";
+import { applyState } from "../logic/applyState.js";
 
 export function handleSongClick(e) {
   const card = e.target.closest(".song-card");
   if (!card) return;
 
-  e.preventDefault(); //
-
   const index = Number(card.dataset.index);
-  if (Number.isNaN(index)) return;
 
-  getLoadSong(index);
-  getPlay();
-  updateUIAfterPlay();
+  loadSong(index);
+  play();
+
+  applyState();
 }
