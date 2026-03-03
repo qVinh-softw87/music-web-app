@@ -4,7 +4,7 @@ export function renderSongs({ container, songs }) {
   songs.forEach((song, index) => {
     const card = document.createElement("a");
     card.href = "#!";
-    card.dataset.index = index; // ✅ index theo list đang render
+    card.dataset.index = index;
 
     card.className =
       "song-card group flex items-center h-[72px] rounded-md overflow-hidden bg-white/10 hover:bg-white/15 transition";

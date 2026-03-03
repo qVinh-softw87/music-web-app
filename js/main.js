@@ -13,6 +13,7 @@ import { renderSongs } from "./ui/renderSongs.js";
 import { handleSongClick } from "./handlers/songClickHandler.js";
 import { applyState } from "./logic/applyState.js";
 import { playerState } from "./state/playerState.js";
+import { openFullscreen } from "./ui/fullscreen.js";
 /* ======================
    DOM ELEMENTS
 ====================== */
@@ -156,4 +157,8 @@ volumeIconBtn.addEventListener("click", () => {
   playerState.isMuted = !playerState.isMuted;
   applyState();
 });
-
+// Handling fullscreen
+const fullscreenBtn = document.getElementById("full-screen");
+fullscreenBtn.addEventListener("click", () => {
+  openFullscreen();
+});
