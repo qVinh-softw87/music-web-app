@@ -10,12 +10,14 @@ import React, {
 } from "react";
 import type { PlayerState, QueueItem, RepeatMode, Track, Playlist } from "@/types/player";
 import { formatTime } from "@/utils/formatTime";
+import { toast } from "sonner";
 
 const REPEAT_MODES: RepeatMode[] = ["off", "all", "one"];
 const STORAGE_KEY_VOLUME = "sw_volume";
 const STORAGE_KEY_REPEAT = "sw_repeat";
 const STORAGE_KEY_LIKED  = "sw_liked";
 const STORAGE_KEY_PLAYLISTS = "sw_playlists";
+const STORAGE_KEY_RECENT = "sw_recent";
 
 function toQueueItem(track: Track, idx: number): QueueItem {
   return { ...track, queueId: `q-${track.id}-${idx}-${Date.now()}` };
@@ -53,6 +55,22 @@ function savePlaylists(playlists: Playlist[]) {
   } catch {}
 }
 
+function readRecent(): Track[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_RECENT);
+    if (!raw) return [];
+    return JSON.parse(raw) as Track[];
+  } catch {
+    return [];
+  }
+}
+
+function saveRecent(tracks: Track[]) {
+  try {
+    localStorage.setItem(STORAGE_KEY_RECENT, JSON.stringify(tracks));
+  } catch {}
+}
+
 interface PlayerContextValue extends PlayerState {
 
   currentTime: number;
@@ -62,7 +80,8 @@ interface PlayerContextValue extends PlayerState {
   progressPercent: number;
   currentSong: Track | null;
   isFullscreenOpen: boolean;
-  isQueueOpen: boolean;
+  queueMode: "closed" | "peek" | "pinned";
+  isLyricsOpen: boolean;
 
   loadSong: (index: number, songList?: Track[], contextTitle?: string) => void;
   togglePlay: () => void;
@@ -81,11 +100,15 @@ interface PlayerContextValue extends PlayerState {
   removeFromQueue: (queueId: string) => void;
   clearQueue: () => void;
   playFromQueue: (queueId: string) => void;
+  reorderQueue: (startIndex: number, endIndex: number) => void;
 
   openFullscreen: () => void;
   closeFullscreen: () => void;
-  openQueue: () => void;
+  toggleQueuePin: () => void;
+  handleQueueHover: (isHovering: boolean) => void;
   closeQueue: () => void;
+  openLyrics: () => void;
+  closeLyrics: () => void;
 
   createPlaylist: (title: string) => void;
   deletePlaylist: (id: number) => void;
@@ -108,42 +131,57 @@ interface PlayerProviderProps {
 }
 
 export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) {
-  const [state, setState] = useState<PlayerState>(() => {
+  const [state, setState] = useState<PlayerState>({
+    songs: initialSongs,
+    queue: [],
+    recentlyPlayed: [],
+    currentIndex: 0,
+    isPlaying: false,
+    repeatMode: "off",
+    shuffle: false,
+    volume: 1,
+    isMuted: false,
+    likedTrackIds: new Set<number>(),
+    customPlaylists: [],
+    contextTitle: undefined,
+  });
 
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
     let volume = 1;
     let repeatMode: RepeatMode = "off";
-    let likedTrackIds = new Set<number>();
-    let customPlaylists: Playlist[] = [];
-    if (typeof window !== "undefined") {
-      volume = parseFloat(localStorage.getItem(STORAGE_KEY_VOLUME) ?? "1") || 1;
-      const storedRepeat = localStorage.getItem(STORAGE_KEY_REPEAT);
-      if (storedRepeat === "all" || storedRepeat === "one" || storedRepeat === "off") {
-        repeatMode = storedRepeat;
-      }
-      likedTrackIds = readLiked();
+    volume = parseFloat(localStorage.getItem(STORAGE_KEY_VOLUME) ?? "1") || 1;
+    const storedRepeat = localStorage.getItem(STORAGE_KEY_REPEAT);
+    if (storedRepeat === "all" || storedRepeat === "one" || storedRepeat === "off") {
+      repeatMode = storedRepeat;
     }
-    return {
-      songs: initialSongs,
-      queue: [],
-      currentIndex: 0,
-      isPlaying: false,
-      repeatMode,
-      shuffle: false,
+    const likedTrackIds = readLiked();
+    const customPlaylists = readPlaylists();
+    const recentlyPlayed = readRecent();
+
+    setState((s) => ({
+      ...s,
       volume,
-      isMuted: false,
+      repeatMode,
       likedTrackIds,
       customPlaylists,
-      contextTitle: undefined,
-    };
-  });
+      recentlyPlayed,
+    }));
+    setIsMounted(true);
+  }, []);
 
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration]       = useState(0);
   const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
-  const [isQueueOpen, setIsQueueOpen]           = useState(false);
+  const [queueMode, setQueueMode]               = useState<"closed" | "peek" | "pinned">("pinned");
+  const [isLyricsOpen, setIsLyricsOpen]         = useState(false);
+
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const audioRef    = useRef<HTMLAudioElement | null>(null);
   const lastSrcRef  = useRef<string | null>(null);
+  const lastAddedRecentRef = useRef<number | null>(null);
 
   const getAudio = useCallback(() => {
     if (!audioRef.current && typeof Audio !== "undefined") {
@@ -159,20 +197,49 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
     const song = state.songs[state.currentIndex];
     if (!song) return;
 
-    if (song.src !== lastSrcRef.current) {
-      audio.src = song.src;
-      lastSrcRef.current = song.src;
+    if (song.id !== lastSrcRef.current) {
+      lastSrcRef.current = song.id;
       setCurrentTime(0);
+      
+      if (song.src) {
+        audio.src = song.src;
+        if (state.isPlaying) audio.play().catch(() => {});
+      } else {
+        // Dynamic fetch from Zing MP3
+        fetch(`/api/zing/song/${song.id}`)
+          .then((res) => res.json())
+          .then((data) => {
+            const streamUrl = data?.streaming?.data?.['128'];
+            if (streamUrl && streamUrl !== 'VIP') {
+              audio.src = streamUrl;
+              setState((prev) => {
+                const newSongs = [...prev.songs];
+                if (newSongs[prev.currentIndex]) {
+                  newSongs[prev.currentIndex] = { ...newSongs[prev.currentIndex], src: streamUrl };
+                }
+                return { ...prev, songs: newSongs };
+              });
+              if (state.isPlaying) audio.play().catch(() => {});
+            } else {
+              toast.error("Bài hát yêu cầu VIP hoặc bị lỗi bản quyền trên Zing.");
+              setState((s) => ({ ...s, isPlaying: false }));
+            }
+          })
+          .catch(() => {
+            toast.error("Lỗi khi tải luồng âm thanh.");
+            setState((s) => ({ ...s, isPlaying: false }));
+          });
+      }
+    } else if (song.src && audio.src !== song.src && audio.src === "") {
+        audio.src = song.src;
     }
 
     audio.volume = state.isMuted ? 0 : state.volume;
     audio.muted  = state.isMuted;
 
-    if (state.isPlaying) {
-      audio.play().catch(() => {
-
-      });
-    } else {
+    if (state.isPlaying && audio.src && audio.src !== "") {
+      audio.play().catch(() => {});
+    } else if (!state.isPlaying) {
       audio.pause();
     }
   }, [
@@ -243,6 +310,23 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
       localStorage.setItem(STORAGE_KEY_REPEAT, state.repeatMode);
     }
   }, [state.repeatMode]);
+
+  useEffect(() => {
+    if (currentTime > 30) {
+      const song = state.songs[state.currentIndex];
+      if (song && lastAddedRecentRef.current !== song.id) {
+        lastAddedRecentRef.current = song.id;
+        setState((prev) => {
+          const filtered = prev.recentlyPlayed.filter(t => t.id !== song.id);
+          const newRecent = [song, ...filtered].slice(0, 20);
+          saveRecent(newRecent);
+          return { ...prev, recentlyPlayed: newRecent };
+        });
+      }
+    } else if (currentTime < 5) {
+      lastAddedRecentRef.current = null;
+    }
+  }, [currentTime, state.songs, state.currentIndex]);
 
   const loadSong = useCallback(
     (index: number, songList?: Track[], contextTitle?: string) => {
@@ -325,8 +409,13 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
   const toggleLike = useCallback((trackId: number) => {
     setState((s) => {
       const newSet = new Set(s.likedTrackIds);
-      if (newSet.has(trackId)) newSet.delete(trackId);
-      else newSet.add(trackId);
+      if (newSet.has(trackId)) {
+        newSet.delete(trackId);
+        toast.success("Đã xóa khỏi Bài hát đã thích");
+      } else {
+        newSet.add(trackId);
+        toast.success("Đã thêm vào Bài hát đã thích");
+      }
       saveLiked(newSet);
       return { ...s, likedTrackIds: newSet };
     });
@@ -338,10 +427,13 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
   );
 
   const addToQueue = useCallback((track: Track) => {
-    setState((s) => ({
-      ...s,
-      queue: [...s.queue, toQueueItem(track, s.queue.length)],
-    }));
+    setState((s) => {
+      toast.success(`Đã thêm "${track.title}" vào hàng đợi`);
+      return {
+        ...s,
+        queue: [...s.queue, toQueueItem(track, s.queue.length)],
+      };
+    });
   }, []);
 
   const removeFromQueue = useCallback((queueId: string) => {
@@ -368,6 +460,15 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
     });
   }, []);
 
+  const reorderQueue = useCallback((startIndex: number, endIndex: number) => {
+    setState((s) => {
+      const result = Array.from(s.queue);
+      const [removed] = result.splice(startIndex, 1);
+      result.splice(endIndex, 0, removed);
+      return { ...s, queue: result };
+    });
+  }, []);
+
   const createPlaylist = useCallback((title: string) => {
     setState((prev) => {
       const newPlaylist: Playlist = {
@@ -380,6 +481,7 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
       };
       const updated = [...prev.customPlaylists, newPlaylist];
       savePlaylists(updated);
+      toast.success(`Đã tạo playlist "${title}"`);
       return { ...prev, customPlaylists: updated };
     });
   }, []);
@@ -388,6 +490,7 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
     setState((prev) => {
       const updated = prev.customPlaylists.filter((p) => p.id !== id);
       savePlaylists(updated);
+      toast.success("Đã xóa playlist");
       return { ...prev, customPlaylists: updated };
     });
   }, []);
@@ -398,6 +501,7 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
         p.id === id ? { ...p, title: newTitle } : p
       );
       savePlaylists(updated);
+      toast.success(`Đã đổi tên thành "${newTitle}"`);
       return { ...prev, customPlaylists: updated };
     });
   }, []);
@@ -406,6 +510,7 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
     setState((prev) => {
       const updated = prev.customPlaylists.map((p) => {
         if (p.id === playlistId && !p.trackIds.includes(trackId)) {
+          toast.success(`Đã thêm vào playlist "${p.title}"`);
           return { ...p, trackIds: [...p.trackIds, trackId] };
         }
         return p;
@@ -419,6 +524,7 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
     setState((prev) => {
       const updated = prev.customPlaylists.map((p) => {
         if (p.id === playlistId) {
+          toast.success(`Đã xóa khỏi playlist "${p.title}"`);
           return { ...p, trackIds: p.trackIds.filter((id) => id !== trackId) };
         }
         return p;
@@ -430,8 +536,25 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
 
   const openFullscreen  = useCallback(() => setIsFullscreenOpen(true),  []);
   const closeFullscreen = useCallback(() => setIsFullscreenOpen(false), []);
-  const openQueue       = useCallback(() => setIsQueueOpen(true),       []);
-  const closeQueue      = useCallback(() => setIsQueueOpen(false),      []);
+  const openLyrics      = useCallback(() => setIsLyricsOpen(true),      []);
+  const closeLyrics     = useCallback(() => setIsLyricsOpen(false),     []);
+
+  const closeQueue = useCallback(() => setQueueMode("closed"), []);
+
+  const toggleQueuePin = useCallback(() => {
+    setQueueMode((prev) => (prev === "pinned" ? "closed" : "pinned"));
+  }, []);
+
+  const handleQueueHover = useCallback((isHovering: boolean) => {
+    if (isHovering) {
+      clearTimeout(hoverTimeoutRef.current);
+      setQueueMode((prev) => (prev === "pinned" ? "pinned" : "peek"));
+    } else {
+      hoverTimeoutRef.current = setTimeout(() => {
+        setQueueMode((prev) => (prev === "pinned" ? "pinned" : "closed"));
+      }, 120);
+    }
+  }, []);
 
   const currentSong     = state.songs[state.currentIndex] ?? null;
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -445,7 +568,8 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
     progressPercent,
     currentSong,
     isFullscreenOpen,
-    isQueueOpen,
+    queueMode,
+    isLyricsOpen,
     loadSong,
     togglePlay,
     next,
@@ -461,10 +585,14 @@ export function PlayerProvider({ children, initialSongs }: PlayerProviderProps) 
     removeFromQueue,
     clearQueue,
     playFromQueue,
+    reorderQueue,
     openFullscreen,
     closeFullscreen,
-    openQueue,
+    toggleQueuePin,
+    handleQueueHover,
     closeQueue,
+    openLyrics,
+    closeLyrics,
     createPlaylist,
     deletePlaylist,
     renamePlaylist,

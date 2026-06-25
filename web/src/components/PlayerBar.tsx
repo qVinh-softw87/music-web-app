@@ -1,6 +1,8 @@
 "use client";
 
 import { usePlayer } from "@/context/PlayerContext";
+import { Tooltip } from "@/components/Tooltip";
+import { VolumeControl } from "@/components/VolumeControl";
 
 const IconShuffle = ({ active }: { active: boolean }) => (
   <svg viewBox="0 0 16 16" className={`w-4 h-4 transition-colors ${active ? "text-[var(--accent)]" : "text-[#ccc]"}`} fill="currentColor">
@@ -58,22 +60,46 @@ const IconQueue = ({ active }: { active: boolean }) => (
   </svg>
 );
 
-const IconVolume = ({ muted }: { muted: boolean }) => (
-  <svg viewBox="0 0 16 16" className="w-4 h-4" fill="currentColor">
-    {muted ? (
-      <path d="M13.86 5.47a.75.75 0 0 0-1.061 0l-1.47 1.47-1.47-1.47A.75.75 0 0 0 8.8 6.53L10.27 8l-1.47 1.47a.75.75 0 1 0 1.06 1.06l1.47-1.47 1.47 1.47a.75.75 0 1 0 1.06-1.06L13.39 8l1.47-1.47a.75.75 0 0 0 0-1.06zm-7.368-.585a.75.75 0 0 0-.75 0L3 6.543H1.25A.75.75 0 0 0 .5 7.293v1.414a.75.75 0 0 0 .75.75H3l2.742 1.657a.75.75 0 0 0 1.138-.642V5.527a.75.75 0 0 0-.388-.64z" />
-    ) : (
-      <>
+export const IconVolume = ({ volume, muted }: { volume: number; muted: boolean }) => {
+  const isOff = muted || volume === 0;
+  const isLow = !isOff && volume <= 0.5;
+
+  if (isOff) {
+    return (
+      <svg viewBox="0 0 16 16" className="w-4 h-4" fill="currentColor">
+        <path d="M13.86 5.47a.75.75 0 0 0-1.061 0l-1.47 1.47-1.47-1.47A.75.75 0 0 0 8.8 6.53L10.27 8l-1.47 1.47a.75.75 0 1 0 1.06 1.06l1.47-1.47 1.47 1.47a.75.75 0 1 0 1.06-1.06L13.39 8l1.47-1.47a.75.75 0 0 0 0-1.06z" />
+        <path d="M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.64 3.64 0 0 1-1.33-4.967 3.64 3.64 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.14 2.14 0 0 0 0 3.7l5.8 3.35V2.8z" />
+      </svg>
+    );
+  }
+
+  if (isLow) {
+    return (
+      <svg viewBox="0 0 16 16" className="w-4 h-4" fill="currentColor">
         <path d="M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.64 3.64 0 0 1-1.33-4.967 3.64 3.64 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.14 2.14 0 0 0 0 3.7l5.8 3.35V2.8zm8.683 4.29V5.56a2.75 2.75 0 0 1 0 4.88" />
-        <path d="M11.5 13.614a5.752 5.752 0 0 0 0-11.228v1.55a4.252 4.252 0 0 1 0 8.127z" />
-      </>
-    )}
-  </svg>
-);
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 16 16" className="w-4 h-4" fill="currentColor">
+      <path d="M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.64 3.64 0 0 1-1.33-4.967 3.64 3.64 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.14 2.14 0 0 0 0 3.7l5.8 3.35V2.8zm8.683 4.29V5.56a2.75 2.75 0 0 1 0 4.88" />
+      <path d="M11.5 13.614a5.752 5.752 0 0 0 0-11.228v1.55a4.252 4.252 0 0 1 0 8.127z" />
+    </svg>
+  );
+};
 
 const IconFullscreen = () => (
   <svg viewBox="0 0 16 16" className="w-4 h-4" fill="currentColor">
     <path fillRule="evenodd" clipRule="evenodd" d="M0.25 3C0.25 2.0335 1.0335 1.25 2 1.25H5.375V2.75H2C1.86193 2.75 1.75 2.86193 1.75 3V5.42857H0.25V3ZM14 2.75H10.625V1.25H14C14.9665 1.25 15.75 2.0335 15.75 3V5.42857H14.25V3C14.25 2.86193 14.1381 2.75 14 2.75ZM1.75 10.5714V13C1.75 13.1381 1.86193 13.25 2 13.25H5.375V14.75H2C1.0335 14.75 0.25 13.9665 0.25 13V10.5714H1.75ZM14.25 13V10.5714H15.75V13C15.75 13.9665 14.9665 14.75 14 14.75H10.625V13.25H14C14.1381 13.25 14.25 13.1381 14.25 13Z" />
+  </svg>
+);
+
+const IconMic = ({ active }: { active: boolean }) => (
+  <svg viewBox="0 0 24 24" className={`w-4 h-4 transition-colors ${active ? "text-[var(--accent)]" : "text-[#ccc]"}`} fill="none" stroke="currentColor" strokeWidth="2">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 16v4m-3 0h6" />
   </svg>
 );
 
@@ -97,10 +123,13 @@ export function PlayerBar() {
     progressPercent,
     seek,
     openFullscreen,
-    openQueue,
-    isQueueOpen,
+    queueMode,
+    toggleQueuePin,
+    handleQueueHover,
     toggleLike,
     isLiked,
+    isLyricsOpen,
+    openLyrics,
   } = usePlayer();
 
   const liked = currentSong ? isLiked(currentSong.id) : false;
@@ -140,15 +169,16 @@ export function PlayerBar() {
         
         <div className="hidden md:block">
           {currentSong && (
-            <button
-              onClick={(e) => { e.stopPropagation(); toggleLike(currentSong.id); }}
-              className={`shrink-0 btn-tactile ${
-                liked ? "text-[var(--accent)]" : "text-[#ccc] hover:text-white"
-              }`}
-              title={liked ? "Bỏ thích" : "Thêm vào yêu thích"}
-            >
-              <IconHeart filled={liked} />
-            </button>
+            <Tooltip content={liked ? "Bỏ thích" : "Thêm vào yêu thích"}>
+              <button
+                onClick={(e) => { e.stopPropagation(); toggleLike(currentSong.id); }}
+                className={`shrink-0 btn-tactile ${
+                  liked ? "text-[var(--accent)]" : "text-[#ccc] hover:text-white"
+                }`}
+              >
+                <IconHeart filled={liked} />
+              </button>
+            </Tooltip>
           )}
         </div>
       </div>
@@ -185,54 +215,64 @@ export function PlayerBar() {
       <div className="hidden md:flex flex-col items-center justify-center flex-[4_1_0%] min-w-0 px-4 gap-1">
         
         <div className="flex items-center gap-4">
-          <button
-            onClick={toggleShuffle}
-            className="relative btn-tactile"
-            title={shuffle ? "Tắt ngẫu nhiên" : "Bật ngẫu nhiên"}
-          >
-            <IconShuffle active={shuffle} />
-            {shuffle && (
-              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent)]" />
-            )}
-          </button>
+          <Tooltip content={shuffle ? "Tắt ngẫu nhiên" : "Bật ngẫu nhiên"}>
+            <button
+              onClick={toggleShuffle}
+              className="relative btn-tactile"
+            >
+              <IconShuffle active={shuffle} />
+              {shuffle && (
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent)]" />
+              )}
+            </button>
+          </Tooltip>
 
-          <button
-            onClick={prev}
-            className="text-[#ccc] hover:text-white btn-tactile"
-          >
-            <IconPrev />
-          </button>
+          <Tooltip content="Quay lại">
+            <button
+              onClick={prev}
+              className="text-[#ccc] hover:text-white btn-tactile"
+            >
+              <IconPrev />
+            </button>
+          </Tooltip>
 
-          <button
-            onClick={togglePlay}
-            className="w-8 h-8 rounded-full bg-white hover:bg-[#e5e5e5] btn-tactile flex items-center justify-center shadow-md text-black"
-          >
-            {isPlaying ? <IconPause /> : <IconPlay />}
-          </button>
+          <Tooltip content={isPlaying ? "Tạm dừng" : "Phát"}>
+            <button
+              onClick={togglePlay}
+              className="w-8 h-8 rounded-full bg-white hover:bg-[#e5e5e5] btn-tactile flex items-center justify-center shadow-md text-black"
+            >
+              {isPlaying ? <IconPause /> : <IconPlay />}
+            </button>
+          </Tooltip>
 
-          <button
-            onClick={next}
-            className="text-[#ccc] hover:text-white btn-tactile"
-          >
-            <IconNext />
-          </button>
+          <Tooltip content="Tiếp theo">
+            <button
+              onClick={next}
+              className="text-[#ccc] hover:text-white btn-tactile"
+            >
+              <IconNext />
+            </button>
+          </Tooltip>
 
-          <button
-            onClick={toggleRepeat}
-            className="relative btn-tactile"
-            title={
+          <Tooltip
+            content={
               repeatMode === "off" ? "Bật lặp tất cả"
               : repeatMode === "all" ? "Lặp một bài"
               : "Tắt lặp"
             }
           >
-            <span className={`block transition-colors ${repeatMode !== "off" ? "text-[var(--accent)]" : "text-[#ccc]"}`}>
-              {repeatMode === "one" ? <IconRepeatOne /> : <IconRepeatAll />}
-            </span>
-            {repeatMode !== "off" && (
-              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent)]" />
-            )}
-          </button>
+            <button
+              onClick={toggleRepeat}
+              className="relative btn-tactile"
+            >
+              <span className={`block transition-colors ${repeatMode !== "off" ? "text-[var(--accent)]" : "text-[#ccc]"}`}>
+                {repeatMode === "one" ? <IconRepeatOne /> : <IconRepeatAll />}
+              </span>
+              {repeatMode !== "off" && (
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent)]" />
+              )}
+            </button>
+          </Tooltip>
         </div>
 
         
@@ -259,41 +299,45 @@ export function PlayerBar() {
       
       <div className="hidden md:flex items-center justify-end flex-[3_1_0%] gap-3 min-w-0">
         
-        <button
-          onClick={isQueueOpen ? () => {} : openQueue}
-          className="btn-tactile"
-          title="Hàng đợi phát"
-        >
-          <IconQueue active={isQueueOpen} />
-        </button>
+        <Tooltip content="Lời bài hát">
+          <button
+            onClick={isLyricsOpen ? () => {} : openLyrics}
+            className="btn-tactile"
+          >
+            <IconMic active={isLyricsOpen} />
+          </button>
+        </Tooltip>
 
-        
-        <button
-          onClick={toggleMuted}
-          className="text-[#ccc] hover:text-white transition shrink-0"
-          title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
-        >
-          <IconVolume muted={isMuted} />
-        </button>
-        <input
-          type="range"
-          min={0}
-          max={100}
-          value={isMuted ? 0 : Math.round(volume * 100)}
-          onChange={(e) => setVolume(Number(e.target.value) / 100)}
-          className="volume-slider w-24"
-          style={{ ["--vol" as string]: `${isMuted ? 0 : volume * 100}%` }}
-          aria-label="Âm lượng"
+        <Tooltip content="Hàng đợi phát">
+          <button
+            onClick={toggleQueuePin}
+            onMouseEnter={() => handleQueueHover(true)}
+            onMouseLeave={() => handleQueueHover(false)}
+            className="btn-tactile relative"
+          >
+            <IconQueue active={queueMode !== "closed"} />
+            {queueMode === "pinned" && (
+              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent)]" />
+            )}
+          </button>
+        </Tooltip>
+
+        <VolumeControl
+          volume={volume}
+          isMuted={isMuted}
+          setVolume={setVolume}
+          toggleMuted={toggleMuted}
         />
 
         
-        <button
-          onClick={openFullscreen}
-          className="text-[#ccc] hover:text-white btn-tactile"
-          title="Mở rộng player"
-        >
-          <IconFullscreen />
-        </button>
+        <Tooltip content="Mở rộng player">
+          <button
+            onClick={openFullscreen}
+            className="text-[#ccc] hover:text-white btn-tactile"
+          >
+            <IconFullscreen />
+          </button>
+        </Tooltip>
       </div>
     </footer>
   );

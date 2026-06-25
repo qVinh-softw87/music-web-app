@@ -3,52 +3,53 @@
 export type RepeatMode = "off" | "all" | "one";
 
 export interface Track {
-  id: number;
+  id: string;
   title: string;
   artist: string;
-  artistId?: number;
-  albumId?: number;
+  artistId?: string;
+  albumId?: string;
   albumTitle?: string;
   cover: string;
-  src: string;
+  src?: string;
   duration?: number;
   genre?: string;
   playCount?: number;
   addedAt?: string;
+  lyrics?: { time: number; text: string }[];
   _originIndex?: number;
 }
 
 export interface Artist {
-  id: number;
+  id: string;
   name: string;
   bio?: string;
   avatarUrl: string;
   headerUrl?: string;
   monthlyListeners?: number;
   isFollowing?: boolean;
-  topTrackIds?: number[];
-  albumIds?: number[];
+  topTrackIds?: string[];
+  albumIds?: string[];
 }
 
 export interface Album {
-  id: number;
+  id: string;
   title: string;
   coverUrl: string;
-  artistId: number;
-  artistName: string;
-  releaseYear: number;
-  type: "album" | "ep" | "single";
-  trackIds?: number[];
+  artistId?: string;
+  artistName?: string;
+  releaseYear?: number;
+  type?: "album" | "ep" | "single";
+  trackIds?: string[];
 }
 
 export interface Playlist {
-  id: number;
+  id: string;
   title: string;
   coverUrl?: string;
   description?: string;
   ownerName: string;
   isPublic: boolean;
-  trackIds: number[];
+  trackIds: string[];
   createdAt?: string;
 }
 
@@ -59,6 +60,7 @@ export interface QueueItem extends Track {
 export interface PlayerState {
   songs: Track[];
   queue: QueueItem[];
+  recentlyPlayed: Track[];
   currentIndex: number;
   isPlaying: boolean;
   repeatMode: RepeatMode;

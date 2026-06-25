@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { playlists } from "@/data/tracks";
 import { usePlayer } from "@/context/PlayerContext";
 
 function IconHome({ active }: { active?: boolean }) {
@@ -69,8 +68,6 @@ export function Sidebar() {
   const pathname = usePathname();
   const { currentSong, isPlaying, loadSong, customPlaylists, createPlaylist, contextTitle } = usePlayer();
 
-  const allPlaylists = [...customPlaylists, ...playlists];
-
   const handleCreatePlaylist = () => {
     const name = window.prompt("Nhập tên playlist mới:");
     if (name && name.trim()) {
@@ -85,9 +82,7 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="flex flex-col bg-[#121212] rounded-2xl m-2 mr-0 overflow-hidden"
-      style={{ flex: "0 0 280px", minWidth: 220, maxWidth: 320 }}
-    >
+    <aside className="w-full h-full flex flex-col bg-[#121212] rounded-lg overflow-hidden">
       
       <div className="px-6 pt-6 pb-2 shrink-0">
         <Link href="/" className="flex items-center gap-2 btn-tactile">
@@ -144,7 +139,7 @@ export function Sidebar() {
 
         
         <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar px-2 pb-2">
-          {allPlaylists.map((pl) => {
+          {customPlaylists.map((pl) => {
             const isPlaying_ =
               currentSong &&
               contextTitle === pl.title &&

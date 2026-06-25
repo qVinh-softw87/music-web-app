@@ -2,6 +2,7 @@
 
 import { usePlayer } from "@/context/PlayerContext";
 import type { Track } from "@/types/player";
+import { LazyImage } from "./LazyImage";
 
 function SongCard({ song, index }: { song: Track; index: number }) {
   const { loadSong, currentIndex } = usePlayer();
@@ -15,10 +16,11 @@ function SongCard({ song, index }: { song: Track; index: number }) {
         isActive ? "active" : ""
       }`}
     >
-      <img
+      <LazyImage
         src={song.cover}
         alt=""
-        className="w-[72px] h-[72px] object-cover shrink-0"
+        className="w-full h-full object-cover"
+        containerClassName="w-[72px] h-[72px] shrink-0"
       />
       <span className="px-4 text-white font-semibold truncate">{song.title}</span>
     </button>

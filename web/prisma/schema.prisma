@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  playlists   Playlist[]
+  likedTracks LikedTrack[]
+}
+
+model Playlist {
+  id          Int      @id @default(autoincrement())
+  title       String
+  coverUrl    String?
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tracks PlaylistTrack[]
+}
+
+model PlaylistTrack {
+  id         Int      @id @default(autoincrement())
+  playlistId Int
+  trackId    String // encodeId from Zing MP3
+  addedAt    DateTime @default(now())
+
+  playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+
+  @@unique([playlistId, trackId])
+}
+
+model LikedTrack {
+  id      Int      @id @default(autoincrement())
+  userId  String
+  trackId String // encodeId from Zing MP3
+  likedAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, trackId])
+}
