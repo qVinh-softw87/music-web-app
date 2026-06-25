@@ -1,0 +1,278 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Google Fonts ─────────────────────────────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&display=swap");
+
+/* ─── Design Tokens ────────────────────────────────────────────────────────── */
+:root {
+  --accent:        #10b981;
+  --accent-hover:  #059669;
+  --accent-dim:    rgba(16, 185, 129, 0.15);
+  --bg-base:       #09090b;
+  --bg-elevated:   #18181b;
+  --bg-card:       #27272a;
+  --bg-highlight:  #3f3f46;
+  --text-primary:  #fafafa;
+  --text-secondary:#a1a1aa;
+  --text-muted:    #71717a;
+  --border:        rgba(255,255,255,0.06);
+  --radius-card:   16px;
+  --transition:    150ms ease;
+}
+
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { font-size: 16px; }
+
+body {
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* ─── Tactile Feedback Utility ──────────────────────────────────────────────── */
+.btn-tactile {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), opacity 150ms ease, background 150ms ease, color 150ms ease;
+}
+.btn-tactile:hover {
+  transform: translateY(-1px);
+}
+.btn-tactile:active {
+  transform: scale(0.98);
+}
+
+/* ─── Scrollbars ────────────────────────────────────────────────────────────── */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.custom-scrollbar {
+  scrollbar-gutter: stable;
+  --thumb: rgba(255,255,255,0.15);
+  --thumb-hover: rgba(255,255,255,0.35);
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumb) transparent;
+}
+.custom-scrollbar::-webkit-scrollbar { width: 12px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--thumb);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--thumb-hover);
+  background-clip: content-box;
+}
+
+/* ─── Song card (SongList) ─────────────────────────────────────────────────── */
+.song-card {
+  position: relative;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.song-card:hover { background: rgba(255,255,255,0.08); }
+.song-card.active { background: rgba(255,255,255,0.16); }
+.song-card.active::before {
+  content: "";
+  position: absolute;
+  left: 6px; top: 14%; bottom: 14%;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 999px;
+}
+
+/* ─── Sticky header blur ────────────────────────────────────────────────────── */
+.header-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: linear-gradient(
+    to bottom,
+    rgba(18,18,18,0.97) 0%,
+    rgba(18,18,18,0.88) 55%,
+    transparent 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ─── Main scroll area ──────────────────────────────────────────────────────── */
+.main-scroll {
+  overflow-y: auto;
+  min-height: 0;
+  scroll-padding-top: 64px;
+}
+
+/* ─── Progress range (player seek bar) ─────────────────────────────────────── */
+.progress-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: transparent;
+  cursor: pointer;
+}
+.progress-range::-webkit-slider-runnable-track {
+  height: 4px;
+  background: #4d4d4d;
+  border-radius: 9999px;
+  transition: background var(--transition);
+}
+.progress-range:hover::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    to right,
+    var(--accent) 0%,
+    var(--accent) var(--progress, 0%),
+    #4d4d4d var(--progress, 0%),
+    #4d4d4d 100%
+  );
+}
+.progress-range:not(:hover)::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    to right,
+    #b3b3b3 0%,
+    #b3b3b3 var(--progress, 0%),
+    #4d4d4d var(--progress, 0%),
+    #4d4d4d 100%
+  );
+}
+.progress-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px; height: 13px;
+  background: #fff;
+  border-radius: 9999px;
+  margin-top: -4.5px;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+.progress-range:hover::-webkit-slider-thumb {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ─── Volume slider ─────────────────────────────────────────────────────────── */
+.volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: #4d4d4d;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px; height: 12px;
+  background: #fff;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+.volume-slider:hover {
+  background: linear-gradient(
+    to right,
+    var(--accent) 0%,
+    var(--accent) var(--vol, 100%),
+    #4d4d4d var(--vol, 100%),
+    #4d4d4d 100%
+  );
+}
+
+/* ─── Track row hover (playlist table) ─────────────────────────────────────── */
+.track-row {
+  border-radius: 6px;
+  transition: background var(--transition);
+}
+.track-row:hover { background: rgba(255,255,255,0.07); }
+.track-row.active-track { color: var(--accent); }
+
+/* ─── Card hover (media cards) ─────────────────────────────────────────────── */
+.media-card {
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.media-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+}
+
+/* ─── Play overlay on card hover ────────────────────────────────────────────── */
+.play-overlay {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.media-card:hover .play-overlay,
+.group:hover .play-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Sidebar item active ───────────────────────────────────────────────────── */
+.nav-item {
+  border-radius: 6px;
+  transition: background var(--transition), color var(--transition);
+}
+.nav-item:hover { background: rgba(255,255,255,0.07); }
+.nav-item.active { color: var(--text-primary); }
+
+/* ─── Queue panel slide-in ──────────────────────────────────────────────────── */
+.queue-panel {
+  transform: translateX(100%);
+  transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.queue-panel.open { transform: translateX(0); }
+
+/* ─── Like button heart animation ───────────────────────────────────────────── */
+@keyframes heartPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  70%  { transform: scale(0.88); }
+  100% { transform: scale(1); }
+}
+.heart-pop { animation: heartPop 320ms ease forwards; }
+
+/* ─── Skeleton loading ──────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 6px;
+}
+
+/* ─── Equalizer animation (playing indicator) ───────────────────────────────── */
+@keyframes eq1 { 0%,100% { height: 8px; } 50% { height: 18px; } }
+@keyframes eq2 { 0%,100% { height: 14px; } 50% { height: 6px; } }
+@keyframes eq3 { 0%,100% { height: 6px; } 33% { height: 18px; } 66% { height: 10px; } }
+
+.eq-bar-1 { animation: eq1 0.8s ease-in-out infinite; }
+.eq-bar-2 { animation: eq2 0.8s ease-in-out 0.15s infinite; }
+.eq-bar-3 { animation: eq3 0.8s ease-in-out 0.3s infinite; }
+
+/* ─── Page fade-in ──────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter { animation: fadeUp 300ms ease forwards; }
+
+/* ─── Category card gradient text ──────────────────────────────────────────── */
+.genre-card {
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 200ms ease;
+}
+.genre-card:hover { transform: translateY(-4px); }
